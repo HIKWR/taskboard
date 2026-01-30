@@ -35,8 +35,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresVerification) {
     if (auth.currentUser?.emailVerified) {
+      console.log(auth.currentUser?.emailVerified)
       next()
     } else {
+      console.log(auth.currentUser?.emailVerified)
       next('/login')
       toast.error('No puedes acceder sin verificar tu email primero')
     }

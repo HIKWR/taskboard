@@ -50,18 +50,18 @@ export const asignarTarea = async (datosTarea, uid) => {
     }
 }
 
-export const obtener = async (categoria) => {
+export const obtenerTareas = async (uid) => {
     try {
-        const consulta = await getDocs(collection(db, categoria))
-        const tabla = []
+        const consulta = await getDocs(collection(db, 'employees', uid))
+        const tablaTareas = []
         consulta.forEach((doc) => {
             tabla.push(doc.data())
             console.log(doc.id, ' => ', doc.data)
         })
-        if (consulta){
+        if (tablaTareas){
             return {
                 ok:true,
-                datos: tabla
+                datos: tablaTareas
             }
         }
     } catch(error) {
@@ -85,4 +85,5 @@ export const obtener = async (categoria) => {
         }
     }
 }
+
 
