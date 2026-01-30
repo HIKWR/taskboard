@@ -11,8 +11,8 @@
 </template>
 
 <script setup>
-import { obtenerTareas } from '@/servicios/tareas';
-import { onMounted, ref } from 'vue';
+import { obtenerTareas } from '@/servicios/tareas'
+import { onMounted, ref } from 'vue'
 
 const lista_tareas = ref([])
 const cargando = ref(true)
