@@ -1,11 +1,16 @@
 <template>
   <section class="w-full h-full">
-    <article v-if="tareas.tareas.todos.length">
-        <div v-for="tarea in tareas.tareas.todos" :key="tarea.todo">
+    <select v-model="filtro">
+        <option value="" selected disabled>Seleccione una categoría</option>
+        <option value="todas">Todas</option>
+        <option value="completadas">Completadas</option>
+        <option value="pendientes">Pendientes</option>
+    </select>
+    <article v-if="lista_filtrada?.length">
+        <div v-for="tarea in lista_filtrada" :key="tarea.todo">
             <h3>{{ tarea.todo }}</h3>
             <p v-if="tarea.completed">✅</p>
-            <p v-else>Pendiente</p>
-            <button @click="">Asignar tarea</button>
+            <button v-else @click="">Asignar tarea</button>
         </div>
     </article>
     <article v-else-if="cargando">
@@ -19,14 +24,32 @@
 
 <script setup>
 import { useTareaStore } from '@/stores/tareasStore';
-import { onMounted } from 'vue';
+import { onMounted, watch, ref } from 'vue';
 
+const lista_filtrada = ref([])
+const filtro = ref('')
 const tareas = useTareaStore()
+const cargando = ref(true)
 
-onMounted(async () => {
-    let cargando = true
+watch(filtro, (newValue) => {
+ if (newValue == 'todas') {
+    lista_filtrada.value = tareas.tareas.todos
+    console.log(lista_filtrada.value)
+ }
+
+ if (newValue == 'completadas') {
+    lista_filtrada.value = tareas.tareas.todos.filter(t => t.completed)
+    console.log(lista_filtrada.value)
+ }
+
+ if (newValue == 'pendientes') {
+    lista_filtrada.value = tareas.tareas.todos.filter(t => !t.completed)
+ }
+})
+
+onMounted(() => {
     tareas.getData()
-    cargando = false
+    cargando.value = ref(false)
 })
 </script>
 

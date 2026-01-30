@@ -18,10 +18,7 @@ const toast = useToast()
 
 // escuchar los cambios de la autenticación del usuario
 onAuthStateChanged(auth, (userFirebase) => {
-  if (auth.email) {
-    toast.success('Bienvenido ' + auth?.email)
-    usuario.value = userFirebase
-  }
+  usuario.value = userFirebase
   
 })
 
