@@ -1,2 +1,3 @@
-# taskboard
-Práctica de Vue: Tablón de tareas
+#taskboard
+
+Proyecto de Vue con Firebase
