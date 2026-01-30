@@ -10,7 +10,8 @@
         <div v-for="tarea in lista_filtrada" :key="tarea.todo">
             <h3>{{ tarea.todo }}</h3>
             <p v-if="tarea.completed">✅</p>
-            <button v-else @click="">Asignar tarea</button>
+            <button v-else-if="!tarea?.assigned" @click="asignarTarea(tarea, auth.currentUser.uid)">Asignar tarea</button>
+            <p v-else> Asignada</p>
         </div>
     </article>
     <article v-else-if="cargando">
@@ -23,8 +24,10 @@
 </template>
 
 <script setup>
+import { asignarTarea } from '@/servicios/tareas';
 import { useTareaStore } from '@/stores/tareasStore';
 import { onMounted, watch, ref } from 'vue';
+import { auth } from '@/firebase/config';
 
 const lista_filtrada = ref([])
 const filtro = ref('')
