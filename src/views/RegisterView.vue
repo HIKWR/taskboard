@@ -2,7 +2,6 @@
   <section>
     <div class="flex flex-col gap-5">
       <h1>Regístrate</h1>
-      <p>n</p>
     </div>
     <form @submit.prevent="registrarUsuario">
       <input type="text" placeholder="Correo electrónico" v-model="email" />

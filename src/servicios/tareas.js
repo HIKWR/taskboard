@@ -52,10 +52,10 @@ export const asignarTarea = async (datosTarea, uid) => {
 
 export const obtenerTareas = async (uid) => {
     try {
-        const consulta = await getDocs(collection(db, 'employees', uid))
+        const consulta = await getDocs(collection(db, 'employees', uid, 'tareas'))
         const tablaTareas = []
         consulta.forEach((doc) => {
-            tabla.push(doc.data())
+            tablaTareas.push(doc.data())
             console.log(doc.id, ' => ', doc.data)
         })
         if (tablaTareas){

@@ -5,6 +5,20 @@ import { auth } from '@/firebase/config'
 import TaskBoardView from '@/views/TaskBoardView.vue'
 import WorkspaceView from '@/views/WorkspaceView.vue'
 import { useToast } from 'vue-toastification'
+import { onAuthStateChanged } from 'firebase/auth'
+
+const getCurrentUser = () => {
+  return new Promise ((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      user => {
+        unsubscribe(),
+        resolve(user)
+      },
+      reject
+    )
+  })
+} 
 
 const toast = useToast()
 
@@ -14,7 +28,7 @@ const router = createRouter({
     {
       path: '/',
       component: TaskBoardView,
-      meta: { requiresVerification: true }
+      meta: { requiresVerification: true, requiresLogin: true }
     },
     {
       path: '/login',
@@ -27,24 +41,33 @@ const router = createRouter({
     {
       path: '/workspace',
       component: WorkspaceView,
-      meta: { requiresVerification: true }
+      meta: { requiresVerification: true, requiresLogin: true }
     }
   ],
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresVerification) {
-    if (auth.currentUser?.emailVerified) {
-      console.log(auth.currentUser?.emailVerified)
-      next()
-    } else {
-      console.log(auth.currentUser?.emailVerified)
-      next('/login')
-      toast.error('No puedes acceder sin verificar tu email primero')
-    }
-  } else {
-    next()
+router.beforeEach(async (to, from, next) => {
+  const user = await getCurrentUser()
+
+  if (!to.meta.requiresLogin) {
+    return next()
   }
+
+  if (!user) {
+    if (to.path !== '/login') {
+      toast.error('No puedes continuar si iniciar sesión')
+      return next('/login')
+    } else {
+      return next()
+    }
+  }
+
+  if (to.meta.requiresVerification && !user.emailVerified) {
+    toast.error('No puedes acceder sin haber verificado tu correo')
+    return next('/login')
+  } 
+
+  next()
 })
 
 export default router

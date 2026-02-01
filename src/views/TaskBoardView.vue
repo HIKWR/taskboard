@@ -20,10 +20,12 @@
     <article v-else>
         <h2>No tienes tareas añadidas</h2>
     </article>
+    <ButtonComponent/>
   </section>
 </template>
 
 <script setup>
+import ButtonComponent from '@/components/ButtonComponent.vue';
 import { asignarTarea } from '@/servicios/tareas';
 import { useTareaStore } from '@/stores/tareasStore';
 import { onMounted, watch, ref } from 'vue';

@@ -6,11 +6,13 @@
             <p v-if="tarea.completed">✅</p>
         </div>
     </article>
-    
+    <ButtonComponent/>
   </section>
 </template>
 
 <script setup>
+import ButtonComponent from '@/components/ButtonComponent.vue'
+import { auth } from '@/firebase/config'
 import { obtenerTareas } from '@/servicios/tareas'
 import { onMounted, ref } from 'vue'
 
@@ -18,7 +20,8 @@ const lista_tareas = ref([])
 const cargando = ref(true)
 
 onMounted(async () => {
-    lista = obtenerTareas()
+    const lista = await obtenerTareas(auth.currentUser.uid)
+    console.log(lista)
     lista_tareas.value = lista.datos
     cargando.value = false
     console.log(lista_tareas.value)

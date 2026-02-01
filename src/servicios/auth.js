@@ -19,7 +19,7 @@ const toast = useToast()
 // escuchar los cambios de la autenticación del usuario
 onAuthStateChanged(auth, (userFirebase) => {
   usuario.value = userFirebase
-  
+  console.log(usuario.value)
 })
 
 // registrar usuario
@@ -64,6 +64,8 @@ export const login = async (email, passwd) => {
 export const logout = async () => {
   try {
     await signOut(auth)
+    toast.info('Sesión cerrada')
+    window.location.reload()
     console.log('✅ sesión cerrada')
     return {
       ok: true,
@@ -88,7 +90,7 @@ export const enviarEmailVerificacion = async (usuarioActual = null) => {
         mensaje: 'Email ya verificado',
       }
     } else {
-      await sendEmailVerification(usuario, { url: window.location.origin + '/perfil' })
+      await sendEmailVerification(usuario, { url: window.location.origin + '/' })
       return {
         ok: true,
         mensaje: 'Email de verificación enviado',
