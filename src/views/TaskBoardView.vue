@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full h-full">
+  <section class="w-full h-full bg-[#f3f4f6]">
     <select v-model="filtro">
         <option value="" selected disabled>Seleccione una categoría</option>
         <option value="todas">Todas</option>
@@ -59,5 +59,62 @@ onMounted(() => {
 </script>
 
 <style scoped lang="sass">
+section
+  padding: 2rem
+  max-width: 900px
+  margin: 0 auto
+
+select
+  padding: 0.6rem 1rem
+  border-radius: 8px
+  border: 1px solid #ccc
+  font-size: 1rem
+  margin-bottom: 1.5rem
+  outline: none
+
+  &:focus
+    border-color: #4f46e5
+
+article
+  display: flex
+  flex-direction: column
+  gap: 1rem
+  margin-bottom: 2rem
+
+article > div
+  background: #f9fafb
+  border-radius: 10px
+  padding: 1rem 1.2rem
+  display: flex
+  align-items: center
+  justify-content: space-between
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06)
+
+h3
+  margin: 0
+  font-size: 1.05rem
+  font-weight: 500
+  color: #1f2937
+
+button
+  padding: 0.4rem 0.8rem
+  border-radius: 6px
+  border: none
+  background: #4f46e5
+  color: white
+  cursor: pointer
+  font-size: 0.9rem
+  transition: background 0.2s ease
+
+  &:hover
+    background: #4338ca
+
+p
+  margin: 0
+  font-size: 0.95rem
+
+article > h2
+  text-align: center
+  color: #6b7280
 
 </style>
